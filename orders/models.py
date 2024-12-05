@@ -12,6 +12,10 @@ class Order(models.Model):
     travel_date = models.DateField()
     num_people = models.PositiveIntegerField()
 
+    class Meta:
+        verbose_name_plural = "Заказы"
+        verbose_name = "Заказ"
+
     def __str__(self):
         return f"Order by {self.profile.user.username} for {self.package.name}"
 
@@ -22,6 +26,10 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     comment = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Отзывы"
+        verbose_name = "Отзыв"
 
     def __str__(self):
         return f"Review by {self.profile.user.username} for {self.package.name}"
