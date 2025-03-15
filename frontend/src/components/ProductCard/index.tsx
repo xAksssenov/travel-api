@@ -11,7 +11,12 @@ const ProductCard = (props: Card) => {
         alt={`photo_${props.id}`}
       />
       <p className={styles.card__title}>Название: {props.name}</p>
-      <p className={styles.card__title}>Описание: {props.description}</p>
+      <p className={styles.card__title}>
+        Описание:{" "}
+        {props.description.length > 15
+          ? props.description.slice(0, 15) + "..."
+          : props.description}
+      </p>
       <p className={styles.card__price}>Цена: {props.price} ₽</p>
     </Link>
   );

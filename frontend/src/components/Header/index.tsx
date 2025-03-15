@@ -17,24 +17,12 @@ const Header = () => {
         </Link>
 
         <div className={styles.header__nav}>
-          <Link to="/catalog-female" className={styles.header__button}>
-            Женщинам
+          <Link to="/orders" className={styles.header__button}>
+            Заказы
           </Link>
-          <Link to="/catalog-male" className={styles.header__button}>
-            Мужчинам
+          <Link to="/" className={styles.header__button}>
+            Корзина
           </Link>
-          <Link to="/new" className={styles.header__button}>
-            Новинки
-          </Link>
-          <Link to="/about" className={styles.header__button}>
-            О нас
-          </Link>
-        </div>
-
-        <div className={styles.header__icons}>
-          <Link to="/favourites">Favourites</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/cart">Cart</Link>
         </div>
 
         <div className={styles.header__burger} onClick={togglePopup}>
