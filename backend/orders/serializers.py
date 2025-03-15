@@ -58,12 +58,12 @@ class ReviewSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)
     profile_id = serializers.IntegerField(write_only=True)
 
-    travel_package = TravelPackageSerializer(many=False, read_only=True)
-    travel_package_id = serializers.IntegerField(write_only=True)
+    package = TravelPackageSerializer(many=False, read_only=True)
+    package_id = serializers.IntegerField(write_only=True)
 
     class Meta:
-        model = Order
-        fields = '__all__'
+        model = Review
+        fields = ['id', 'profile', 'profile_id', 'package', 'package_id', 'rating', 'comment', 'date_posted']
 
     def validate(self, data):
         if data['rating'] < 1 or data['rating'] > 5:
@@ -74,10 +74,10 @@ class ReviewSerializer(serializers.ModelSerializer):
         profile_id = validated_data.pop('profile_id')
         profile = UserProfile.objects.get(id=profile_id)
 
-        travel_package_id = validated_data.pop('travel_package_id')
-        travel_package = TravelPackage.objects.get(id=travel_package_id)
+        package_id = validated_data.pop('package_id')
+        package = TravelPackage.objects.get(id=package_id)
 
-        review = Review.objects.create(profile=profile, travel_package=travel_package, **validated_data)
+        review = Review.objects.create(profile=profile, package=package, **validated_data)
         return review
 
     def update(self, instance, validated_data):
@@ -85,15 +85,14 @@ class ReviewSerializer(serializers.ModelSerializer):
         instance.comment = validated_data.get('comment', instance.comment)
 
         profile_id = validated_data.pop('profile_id', None)
-
         if profile_id:
             profile = UserProfile.objects.get(id=profile_id)
             instance.profile = profile
 
-        travel_package_id = validated_data.pop('travel_package_id', None)
-        if travel_package_id:
-            travel_package = TravelPackage.objects.get(id=travel_package_id)
-            instance.travel_package = travel_package
+        package_id = validated_data.pop('package_id', None)
+        if package_id:
+            package = TravelPackage.objects.get(id=package_id)
+            instance.package = package
 
         instance.save()
         return instance

@@ -27,11 +27,17 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    filter_backends = [IsOwnerOrSuperuserFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     ordering_fields = ['rating', 'date_posted']
     search_fields = ['profile__first_name', 'profile__last_name', 'comment']
+
+    def list(self, request, *args, **kwargs):
+        package_id = request.query_params.get('package')
+        if package_id:
+            self.queryset = self.queryset.filter(package_id=package_id)
+        return super().list(request, *args, **kwargs)
 
     @action(detail=False, methods=['GET'])
     def high_rated(self, request):

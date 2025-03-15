@@ -3,12 +3,14 @@ import styles from "./index.module.scss";
 import { useParams } from "react-router";
 import axios from "axios";
 import { Card } from "../../types/cardType";
+import { Review } from "../../types/reviewType";
 import Header from "../../components/Header";
 
 const AboutCard = () => {
   const { id } = useParams<{ id: string }>();
 
   const [card, setCard] = useState<Card | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [openSection, setOpenSection] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string>("");
 
@@ -33,9 +35,31 @@ const AboutCard = () => {
     }
   };
 
+  const fetchReviews = async (packageId: string) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/reviews/`, {
+        withCredentials: true,
+        headers: {
+          "Content-type": "application/json",
+        },
+        params: {
+          package: packageId,
+        },
+      });
+
+      if (response.status === 200) {
+        setReviews(response.data.results);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Ошибка получения отзывов: ", error);
+    }
+  };
+
   useEffect(() => {
     if (id) {
       fetchCard(id);
+      fetchReviews(id);
     }
   }, [id]);
 
@@ -46,6 +70,7 @@ const AboutCard = () => {
         : [...prev, section]
     );
   };
+
   return (
     <div>
       <Header />
@@ -90,13 +115,28 @@ const AboutCard = () => {
                 </button>
                 {openSection.includes("reviews") && (
                   <div className={styles.additional__content}>
-                    <p>
-                      Этот товар изготовлен из высококачественных материалов,
-                      обеспечивающих долгий срок службы. Удобен в повседневной
-                      носке благодаря современному дизайну и эргономичности.
-                      Легко сочетается с другими элементами гардероба. Подходит
-                      для всех сезонов.
-                    </p>
+                    {reviews.length > 0 ? (
+                      reviews.map((review) => (
+                        <div key={review.id} className={styles.additional__review}>
+                          <p>
+                            <strong>Номер телефона:</strong>
+                            {review.profile.phone_number}
+                          </p>
+                          <p>
+                            <strong>Рейтинг:</strong> {review.rating}
+                          </p>
+                          <p>
+                            <strong>Комментарий:</strong> {review.comment}
+                          </p>
+                          <p>
+                            <strong>Дата добавления:</strong>{" "}
+                            {new Date(review.date_posted).toLocaleString()}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>Отзывы пока отсутствуют.</p>
+                    )}
                   </div>
                 )}
               </div>
@@ -108,7 +148,7 @@ const AboutCard = () => {
                   }`}
                   onClick={() => toggleSection("delivery")}
                 >
-                  Направление:
+                  Страна:
                   <span className={styles.arrow} />
                 </button>
                 {openSection.includes("delivery") && (
@@ -125,7 +165,7 @@ const AboutCard = () => {
                   }`}
                   onClick={() => toggleSection("return")}
                 >
-                  Описание направления:
+                  Описание тура:
                   <span className={styles.arrow} />
                 </button>
                 {openSection.includes("return") && (
@@ -134,7 +174,6 @@ const AboutCard = () => {
                   </div>
                 )}
               </div>
-
             </div>
           </div>
         </div>
