@@ -1,0 +1,213 @@
+.product {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.gallery {
+    display: flex;
+    gap: 40px;
+
+    &__thumbnails {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .thumbnail {
+            width: 100px;
+            height: 170px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+            border-radius: 5px;
+
+            &.thumbnail_active {
+                border-color: black;
+            }
+
+            &:hover {
+                border-color: rgb(0, 0, 0);
+            }
+        }
+    }
+
+    &__img {
+        width: 500px;
+        height: 900px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+}
+
+.details {
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__title {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    &__price {
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    &__description {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+
+        &__cart {
+            width: 100%;
+            transition: all ease 0.3s;
+            border: 1px solid black;
+
+            &:hover {
+                background-color: white;
+                color: black;
+            }
+        }
+
+        &__icon {
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            transition: all ease 0.3s;
+
+            &:hover {
+                scale: 1.2;
+            }
+        }
+    }
+
+    .size {
+        display: flex;
+        flex-direction: column;
+
+        &__section {
+            display: flex;
+            gap: 15px;
+        }
+
+        &__title {
+            line-height: 0%;
+            font-weight: 500;
+        }
+
+        &__text {
+            text-align: center;
+            padding: 10px 15px;
+            border: 1px solid black;
+            cursor: pointer;
+            transition: all ease 0.3s;
+
+            &:hover {
+                background-color: black;
+                color: white;
+            }
+        }
+    }
+
+    .additional {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        &__title {
+            background: none;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            padding: 10px 0;
+            text-align: left;
+            width: 100%;
+            transition: all ease 0.3s;
+
+            &:hover {
+                color: black;
+                transform: translateY(-2px);
+                font-weight: 700;
+            }
+        }
+
+        &__content {
+            padding-left: 15px;
+            font-size: 16px;
+            color: #555;
+            animation: fadeIn 0.3s ease-in-out;
+
+            li {
+                padding-left: 15px;
+                margin-bottom: 5px;
+            }
+
+            ol,
+            ul {
+                padding-left: 15px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+.additional__title {
+    position: relative;
+    padding-right: 20px;
+
+    .arrow {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        width: 8px;
+        height: 8px;
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+    &.open .arrow {
+        transform: translateY(-50%) rotate(-135deg);
+    }
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
