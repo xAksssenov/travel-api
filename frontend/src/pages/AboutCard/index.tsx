@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import axios from "axios";
 import { Card } from "../../types/cardType";
+import Header from "../../components/Header";
 
 const AboutCard = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,12 +14,15 @@ const AboutCard = () => {
 
   const fetchCard = async (id: string) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8080/card/${id}`, {
-        withCredentials: true,
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/travels/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 200) {
         setCard(response.data);
@@ -29,6 +33,12 @@ const AboutCard = () => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      fetchCard(id);
+    }
+  }, [id]);
+
   const toggleSection = (section: string) => {
     setOpenSection((prev: string[]) =>
       prev.includes(section)
@@ -38,6 +48,8 @@ const AboutCard = () => {
   };
   return (
     <div>
+      <Header />
+
       {card ? (
         <div className={styles.product}>
           <div className={styles.gallery}>
@@ -69,14 +81,14 @@ const AboutCard = () => {
               <div>
                 <button
                   className={`${styles.additional__title} ${
-                    openSection.includes("description") ? styles.open : ""
+                    openSection.includes("reviews") ? styles.open : ""
                   }`}
-                  onClick={() => toggleSection("description")}
+                  onClick={() => toggleSection("reviews")}
                 >
-                  Описание и состав:
+                  Отзывы
                   <span className={styles.arrow} />
                 </button>
-                {openSection.includes("description") && (
+                {openSection.includes("reviews") && (
                   <div className={styles.additional__content}>
                     <p>
                       Этот товар изготовлен из высококачественных материалов,
@@ -96,21 +108,13 @@ const AboutCard = () => {
                   }`}
                   onClick={() => toggleSection("delivery")}
                 >
-                  Доставка:
+                  Направление:
                   <span className={styles.arrow} />
                 </button>
                 {openSection.includes("delivery") && (
-                  <ul className={styles.additional__content}>
-                    <li>
-                      При заказе на сумму от 20 000 руб. — доставка по России
-                      бесплатно.
-                    </li>
-                    <li>Курьер по Москве и МО за пределы МКАД — 500 руб.</li>
-                    <li>Курьер по Санкт-Петербургу — 500 руб.</li>
-                    <li>Курьер при доставке в регионы — 790 руб.</li>
-                    <li>Доставка в пункты выдачи — от 290 руб.</li>
-                    <li>СНГ — от 890 руб.</li>
-                  </ul>
+                  <div className={styles.additional__content}>
+                    <p>{card.destination.country.name}</p>
+                  </div>
                 )}
               </div>
 
@@ -121,53 +125,16 @@ const AboutCard = () => {
                   }`}
                   onClick={() => toggleSection("return")}
                 >
-                  Возврат:
+                  Описание направления:
                   <span className={styles.arrow} />
                 </button>
                 {openSection.includes("return") && (
                   <div className={styles.additional__content}>
-                    <p>
-                      Если товар вам не подошел, вы можете оформить возврат в
-                      течение 14 дней с момента получения заказа.
-                    </p>
+                    <p>{card.destination.description}</p>
                   </div>
                 )}
               </div>
 
-              <div>
-                <button
-                  className={`${styles.additional__title} ${
-                    openSection.includes("care") ? styles.open : ""
-                  }`}
-                  onClick={() => toggleSection("care")}
-                >
-                  Уход за изделием:
-                  <span className={styles.arrow} />
-                </button>
-                {openSection.includes("care") && (
-                  <ol className={styles.additional__content}>
-                    <li>
-                      Ручная стирка при температуре не выше 30℃. Не выкручивать.
-                    </li>
-                    <li>Не отбеливать.</li>
-                    <li>Утюжить при температуре не выше 115℃.</li>
-                    <li>Сушить вертикально.</li>
-                    <li>Деликатная химчистка.</li>
-                  </ol>
-                )}
-              </div>
-
-              <div>
-                <button
-                  className={`${styles.additional__title} ${
-                    openSection.includes("count") ? styles.open : ""
-                  }`}
-                  onClick={() => toggleSection("count")}
-                >
-                  В наличие:
-                  <span className={styles.arrow} />
-                </button>
-              </div>
             </div>
           </div>
         </div>

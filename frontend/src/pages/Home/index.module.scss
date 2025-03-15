@@ -1,11 +1,12 @@
-.sales,
-.popular {
+.sales {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    width: 90%;
+    margin: 2vw auto;
 
     &__button {
         border: 1px solid black;
