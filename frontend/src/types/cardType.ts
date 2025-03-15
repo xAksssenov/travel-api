@@ -4,7 +4,7 @@ export type Country = {
   name: string;
 };
 
-// Тип для направления (например, город)
+// Тип для направления
 export type Destination = {
   id: number;
   country: Country;
@@ -21,11 +21,4 @@ export type Card = {
   description: string;
   price: string;
   duration: number;
-};
-
-export type TourResponse = {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Card[];
 };
