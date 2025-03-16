@@ -69,7 +69,19 @@ const Home = () => {
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSearchParams({ search: searchQuery });
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev.toString());
+      newParams.set("search", searchQuery);
+      return newParams;
+    });
+  };
+
+  const handleSort = (order: string) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev.toString());
+      newParams.set("orderBy", order);
+      return newParams;
+    });
   };
 
   return (
@@ -95,13 +107,13 @@ const Home = () => {
         <div className={styles.travels__section}>
           <button
             className={styles.travels__button}
-            onClick={() => setSearchParams({ orderBy: "price" })}
+            onClick={() => handleSort("price")}
           >
             Сортировать по возрастанию цены
           </button>
           <button
             className={styles.travels__button}
-            onClick={() => setSearchParams({ orderBy: "-price" })}
+            onClick={() => handleSort("-price")}
           >
             Сортировать по убыванию цены
           </button>
