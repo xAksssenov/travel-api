@@ -1,0 +1,81 @@
+.travels {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 90%;
+    margin: 2vw auto;
+
+    &__section {
+        display: flex;
+        gap: 15px;
+    }
+
+    &__button {
+        border: 1px solid black;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: white;
+            color: black;
+        }
+    }
+}
+
+.search {
+    display: flex;
+    gap: 15px;
+
+    &__input {
+        width: 300px;
+        padding: 8px;
+        outline: none;
+        background-color: whitesmoke;
+        border: 1px solid black;
+        color: black;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    input,
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        resize: none;
+    }
+}
