@@ -219,7 +219,7 @@ const AboutCard = () => {
                   }`}
                   onClick={() => toggleSection("return")}
                 >
-                  Описание тура:
+                  Описание города:
                   <span className={styles.arrow} />
                 </button>
                 {openSection.includes("return") && (

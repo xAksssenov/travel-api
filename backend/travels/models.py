@@ -5,8 +5,8 @@ from django.db import models
 class Country(models.Model):
     name = models.CharField(max_length=50)
     class Meta:
-        verbose_name_plural = "Города"
-        verbose_name = "Город"
+        verbose_name_plural = "Страна"
+        verbose_name = "Страна"
 
 class Destination(models.Model):
     name = models.CharField(max_length=100)

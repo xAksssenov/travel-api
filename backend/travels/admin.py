@@ -13,7 +13,7 @@ class TravelPackageAdmin(admin.ModelAdmin):
 
     # Hyperlink to related Destination
     def hyperlink_to_destination(self, obj):
-        return format_html(f"<a href='/admin/app_name/destination/{obj.destination.id}/'>{obj.destination.name}</a>")
+        return format_html(f"<a href='/admin/travels/destination/{obj.destination.id}/'>{obj.destination.name}</a>")
 
     hyperlink_to_destination.short_description = "Destination Link"
 

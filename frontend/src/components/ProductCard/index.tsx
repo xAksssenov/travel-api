@@ -10,7 +10,10 @@ const ProductCard = (props: Card) => {
         src={props.destination.image}
         alt={`photo_${props.id}`}
       />
-      <p className={styles.card__title}>Название: {props.name}</p>
+      <p className={styles.card__title}>
+        Название:{" "}
+        {props.name.length > 15 ? props.name.slice(0, 15) + "..." : props.name}
+      </p>
       <p className={styles.card__title}>
         Описание:{" "}
         {props.description.length > 15
