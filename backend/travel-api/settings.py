@@ -53,6 +53,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 15
 }
 
+MEDIA_URL = '/destinations/'
+MEDIA_ROOT = BASE_DIR / ''
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

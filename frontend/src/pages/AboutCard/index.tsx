@@ -13,7 +13,6 @@ const AboutCard = () => {
   const [card, setCard] = useState<Card | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [openSection, setOpenSection] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string>("");
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [updatedCard, setUpdatedCard] = useState<Card | null>(null);
@@ -33,7 +32,6 @@ const AboutCard = () => {
       if (response.status === 200) {
         setCard(response.data);
         setUpdatedCard(response.data);
-        setSelectedImage(response.data.image);
       }
     } catch (error) {
       console.error("Ошибка получения карточки: ", error);
@@ -120,7 +118,7 @@ const AboutCard = () => {
             </div>
             <img
               className={styles.gallery__img}
-              src={selectedImage}
+              src={card.destination.image}
               alt={card.name}
             />
           </div>

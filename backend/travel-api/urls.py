@@ -20,6 +20,8 @@ from rest_framework.routers import DefaultRouter
 from users.views import UserProfileViewSet
 from travels.views import TravelViewSet, DestinationViewSet
 from orders.views import OrderViewSet, ReviewViewSet
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 
@@ -29,11 +31,10 @@ router.register(r'orders', OrderViewSet)
 router.register(r'reviews', ReviewViewSet)
 router.register(r'profiles', UserProfileViewSet)
 
-
-
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
