@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { Card } from "../../types/cardType";
 import { Review } from "../../types/reviewType";
@@ -8,11 +8,15 @@ import Header from "../../components/Header";
 
 const AboutCard = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const [card, setCard] = useState<Card | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [openSection, setOpenSection] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string>("");
+
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [updatedCard, setUpdatedCard] = useState<Card | null>(null);
 
   const fetchCard = async (id: string) => {
     try {
@@ -28,6 +32,7 @@ const AboutCard = () => {
 
       if (response.status === 200) {
         setCard(response.data);
+        setUpdatedCard(response.data);
         setSelectedImage(response.data.image);
       }
     } catch (error) {
@@ -53,6 +58,29 @@ const AboutCard = () => {
       }
     } catch (error) {
       console.error("Ошибка получения отзывов: ", error);
+    }
+  };
+
+  const handleEdit = async () => {
+    try {
+      await axios.put(`http://127.0.0.1:8000/api/travels/${id}/`, updatedCard, {
+        withCredentials: true,
+      });
+      setIsEditMode(false);
+      fetchCard(id!);
+    } catch (error) {
+      console.error("Ошибка редактирования тура: ", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/travels/${id}/`, {
+        withCredentials: true,
+      });
+      navigate("/");
+    } catch (error) {
+      console.error("Ошибка удаления тура: ", error);
     }
   };
 
@@ -100,6 +128,20 @@ const AboutCard = () => {
               <button className={styles.buttons__cart}>
                 Добавить в корзину
               </button>
+              <div className={styles.buttons__section}>
+                <button
+                  className={styles.buttons__cart}
+                  onClick={() => setIsEditMode(true)}
+                >
+                  Редактировать
+                </button>
+                <button
+                  className={styles.buttons__delete}
+                  onClick={handleDelete}
+                >
+                  Удалить
+                </button>
+              </div>
             </div>
 
             <div className={styles.additional}>
@@ -117,7 +159,10 @@ const AboutCard = () => {
                   <div className={styles.additional__content}>
                     {reviews.length > 0 ? (
                       reviews.map((review) => (
-                        <div key={review.id} className={styles.additional__review}>
+                        <div
+                          key={review.id}
+                          className={styles.additional__review}
+                        >
                           <p>
                             <strong>Номер телефона:</strong>
                             {review.profile.phone_number}

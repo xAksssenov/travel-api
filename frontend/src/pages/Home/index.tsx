@@ -10,12 +10,22 @@ const Home = () => {
   const [cardSales, setCardSales] = useState<Card[]>([]);
   const [isLoadingSale, isSetLoadingSale] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState<string>(
     searchParams.get("search") || ""
   );
 
-  const fetchCardSales = async () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [newTour, setNewTour] = useState({
+    name: "",
+    destination_id: "",
+    description: "",
+    price: "",
+    duration: "",
+  });
+
+  const fetchCard = async () => {
     try {
       const search = searchParams.get("search") || "";
       const orderBy = searchParams.get("orderBy") || "";
@@ -41,8 +51,20 @@ const Home = () => {
     }
   };
 
+  const handleAddTour = async () => {
+    try {
+      await axios.post("http://127.0.0.1:8000/api/travels/", newTour, {
+        withCredentials: true,
+      });
+      setIsModalOpen(false);
+      fetchCard();
+    } catch (error) {
+      console.error("Ошибка добавления тура: ", error);
+    }
+  };
+
   useEffect(() => {
-    fetchCardSales();
+    fetchCard();
   }, [searchParams]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -83,7 +105,77 @@ const Home = () => {
           >
             Сортировать по убыванию цены
           </button>
+          <button
+            className={styles.travels__button}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Добавить тур
+          </button>
         </div>
+
+        {isModalOpen && (
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <h2>Добавить тур</h2>
+              <input
+                type="text"
+                placeholder="Название"
+                className={styles.search__input}
+                value={newTour.name}
+                onChange={(e) =>
+                  setNewTour({ ...newTour, name: e.target.value })
+                }
+              />
+              <input
+                type="number"
+                placeholder="Номер страны"
+                className={styles.search__input}
+                value={newTour.destination_id}
+                onChange={(e) =>
+                  setNewTour({ ...newTour, destination_id: e.target.value })
+                }
+              />
+              <textarea
+                placeholder="Описание"
+                className={styles.search__input}
+                value={newTour.description}
+                onChange={(e) =>
+                  setNewTour({ ...newTour, description: e.target.value })
+                }
+              />
+              <input
+                type="number"
+                placeholder="Цена"
+                className={styles.search__input}
+                value={newTour.price}
+                onChange={(e) =>
+                  setNewTour({ ...newTour, price: e.target.value })
+                }
+              />
+              <input
+                type="number"
+                placeholder="Длительность"
+                className={styles.search__input}
+                value={newTour.duration}
+                onChange={(e) =>
+                  setNewTour({ ...newTour, duration: e.target.value })
+                }
+              />
+              <button
+                className={styles.travels__button}
+                onClick={handleAddTour}
+              >
+                Добавить
+              </button>
+              <button
+                className={styles.travels__button}
+                onClick={() => setIsModalOpen(false)}
+              >
+                Отмена
+              </button>
+            </div>
+          </div>
+        )}
 
         {isLoadingSale ? (
           <div className={styles.cards}>
