@@ -58,10 +58,22 @@ class TravelPackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = TravelPackage
         fields = '__all__'
+        
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.price = validated_data.get('price', instance.price)
+        instance.duration = validated_data.get('duration', instance.duration)
+
+        destination_id = validated_data.get('destination_id', instance)
+        if destination_id:
+            destination = Destination.objects.get(id=destination_id)
+            instance.destination = destination
+        instance.save()
+
+        return instance
 
     def validate_name(self, value):
-        if TravelPackage.objects.filter(name=value).exists():
-            raise serializers.ValidationError("Travel Package already exists.")
         return value
 
     def create(self, validated_data):

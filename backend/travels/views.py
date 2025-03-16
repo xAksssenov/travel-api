@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import status
 
 from travels.models import TravelPackage, Destination
 from travels.serializers import TravelPackageSerializer, DestinationSerializer
@@ -17,6 +18,13 @@ class TravelViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['destination', 'price', 'duration']
     search_fields = ['destination__name', 'description']
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=False)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def get_queryset(self):
         queryset = super().get_queryset()
