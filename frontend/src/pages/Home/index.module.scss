@@ -1,4 +1,4 @@
-.sales {
+.travels {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,6 +8,11 @@
     width: 90%;
     margin: 2vw auto;
 
+    &__section {
+        display: flex;
+        gap: 15px;
+    }
+
     &__button {
         border: 1px solid black;
         transition: all 0.3s ease;
@@ -16,6 +21,22 @@
             background-color: white;
             color: black;
         }
+    }
+}
+
+.search {
+    display: flex;
+    gap: 15px;
+
+    &__input {
+        width: 300px;
+        padding: 8px;
+        outline: none;
+        background-color: whitesmoke;
+        border: 1px solid black;
+        color: black;
+        font-size: 16px;
+        border-radius: 5px;
     }
 }
 

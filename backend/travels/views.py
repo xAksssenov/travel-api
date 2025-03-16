@@ -17,6 +17,23 @@ class TravelViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['destination', 'price', 'duration']
     search_fields = ['destination__name', 'description']
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        order_by = self.request.query_params.get("orderBy")
+        search_query = self.request.query_params.get("search")
+
+        if search_query:
+            queryset = queryset.filter(
+                Q(name__icontains=search_query) | 
+                Q(description__icontains=search_query)
+            )
+
+        if order_by in ["price", "-price"]:
+            queryset = queryset.order_by(order_by)
+
+        return queryset
 
     @action(detail=False, methods=['GET'], url_path='by-price-and-dest')
     def by_price_and_dest(self, request):
