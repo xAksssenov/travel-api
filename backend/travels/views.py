@@ -10,10 +10,8 @@ from travels.models import TravelPackage, Destination
 from travels.serializers import TravelPackageSerializer, DestinationSerializer
 
 
-# Create your views here.
-
 class TravelViewSet(viewsets.ModelViewSet):
-    queryset = TravelPackage.objects.all()
+    queryset = TravelPackage.objects.select_related("destination", "destination__country").all()
     serializer_class = TravelPackageSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['destination', 'price', 'duration']
@@ -53,11 +51,11 @@ class TravelViewSet(viewsets.ModelViewSet):
         if dest is None:
             return Response({'error': 'Parameter dest is required'}, status=400)
 
-        travels = TravelPackage.objects.filter(Q(price__lte=price) | (Q(destination_id=dest) & ~Q(price__lte=price)))
+        travels = self.queryset.filter(Q(price__lte=price) | (Q(destination_id=dest) & ~Q(price__lte=price)))
         serializer = TravelPackageSerializer(travels, many=True)
         return Response(serializer.data)
 
 
 class DestinationViewSet(viewsets.ModelViewSet):
-    queryset = Destination.objects.all()
+    queryset = Destination.objects.select_related("country").all()
     serializer_class = DestinationSerializer
