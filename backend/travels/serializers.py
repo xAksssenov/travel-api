@@ -60,7 +60,7 @@ class ExtraServiceSerializer(serializers.ModelSerializer):
 
 class TravelPackageSerializer(serializers.ModelSerializer):
     destination = DestinationSerializer(many=False, read_only=True)
-    extra_services = ExtraServiceSerializer(many=True)
+    extra_services = ExtraServiceSerializer(many=True, required=False)
     destination_id = serializers.IntegerField(write_only=True)
 
     class Meta:
