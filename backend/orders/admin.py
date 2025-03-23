@@ -9,12 +9,14 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ('order_date', 'travel_date')
     search_fields = ('profile__user__username', 'package__name')
     readonly_fields = ('order_date',)
+    date_hierarchy = 'travel_date'
 
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('profile', 'package', 'rating', 'short_comment')
     list_filter = ('rating', 'date_posted')
+    date_hierarchy = 'date_posted'
 
     def short_comment(self, obj):
         return obj.comment[:50] + "..." if len(obj.comment) > 50 else obj.comment

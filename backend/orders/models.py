@@ -11,6 +11,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     travel_date = models.DateField()
     num_people = models.PositiveIntegerField()
+    url = models.URLField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Заказы"
@@ -26,6 +27,7 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     comment = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
+    url = models.URLField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Отзывы"

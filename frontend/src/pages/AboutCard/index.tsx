@@ -201,7 +201,12 @@ const AboutCard = () => {
                 </button>
                 {openSection.includes("delivery") && (
                   <div className={styles.additional__content}>
-                    <p>{card.destination.country.name}</p>
+                    <p>
+                      {card.destination.country.name} -{" "}
+                      <a target="_blank" href={card.destination.country.url}>
+                        Ссылка на информацию о стране
+                      </a>
+                    </p>
                   </div>
                 )}
               </div>

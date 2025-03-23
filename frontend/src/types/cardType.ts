@@ -2,6 +2,7 @@
 export type Country = {
   id: number;
   name: string;
+  url: string;
 };
 
 // Тип для направления
