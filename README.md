@@ -1,1 +1,1 @@
-Проект Django + React 
+# Проект Django + React
