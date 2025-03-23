@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from travels.models import TravelPackage, Destination, Country
+from travels.models import ExtraService, TravelPackage, Destination, Country
 
 
 # Register your models here.
@@ -9,7 +9,11 @@ from travels.models import TravelPackage, Destination, Country
 class TravelPackageAdmin(admin.ModelAdmin):
     list_display = ('name', 'destination', 'price', 'duration', 'hyperlink_to_destination')
     list_filter = ('destination',)
-    fields = ('name', 'destination', 'description', 'price', 'duration')
+    fieldsets = (
+        (None, {'fields': ('name', 'destination', 'description', 'price', 'duration')}),
+        ('Дополнительные услуги', {'fields': ('extra_services',)}),
+    )
+    filter_horizontal = ('extra_services',)
 
     # Hyperlink to related Destination
     def hyperlink_to_destination(self, obj):
@@ -37,3 +41,9 @@ class DestinationAdmin(admin.ModelAdmin):
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
     list_display = ('name',)
+    
+
+@admin.register(ExtraService)
+class ExtraServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ('name',)

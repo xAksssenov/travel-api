@@ -10,6 +10,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ('profile__user__username', 'package__name')
     readonly_fields = ('order_date',)
     date_hierarchy = 'travel_date'
+    raw_id_fields = ('profile', 'package')
 
 
 @admin.register(Review)
