@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import { Card } from "../../types/cardType";
+import { Card, Dop } from "../../types/cardType";
 import { Review } from "../../types/reviewType";
 import Header from "../../components/Header";
 
@@ -12,6 +12,7 @@ const AboutCard = () => {
 
   const [card, setCard] = useState<Card | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [dop, setDop] = useState<Dop[]>([]);
   const [openSection, setOpenSection] = useState<string[]>([]);
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -184,6 +185,39 @@ const AboutCard = () => {
                       ))
                     ) : (
                       <p>Отзывы пока отсутствуют.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <button
+                  className={`${styles.additional__title} ${
+                    openSection.includes("dop") ? styles.open : ""
+                  }`}
+                  onClick={() => toggleSection("dop")}
+                >
+                  Дополнительные услуги
+                  <span className={styles.arrow} />
+                </button>
+                {openSection.includes("dop") && (
+                  <div className={styles.additional__content}>
+                    {card.extra_services.length > 0 ? (
+                      card.extra_services.map((service) => (
+                        <div
+                          key={service.id}
+                          className={styles.additional__review}
+                        >
+                          <p>
+                            <strong>Услуга:</strong> {service.name}
+                          </p>
+                          <p>
+                            <strong>Описание:</strong> {service.description}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>Дополнительные услуги отсутствуют.</p>
                     )}
                   </div>
                 )}

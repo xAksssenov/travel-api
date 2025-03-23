@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from travels.models import Country, Destination, TravelPackage
+from travels.models import Country, Destination, ExtraService, TravelPackage
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -50,9 +50,17 @@ class DestinationSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+    
+    
+class ExtraServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExtraService
+        fields = ['id', 'name', 'description']
+
 
 class TravelPackageSerializer(serializers.ModelSerializer):
     destination = DestinationSerializer(many=False, read_only=True)
+    extra_services = ExtraServiceSerializer(many=True)
     destination_id = serializers.IntegerField(write_only=True)
 
     class Meta:

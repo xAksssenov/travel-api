@@ -11,7 +11,7 @@ from travels.serializers import TravelPackageSerializer, DestinationSerializer
 
 
 class TravelViewSet(viewsets.ModelViewSet):
-    queryset = TravelPackage.objects.select_related("destination", "destination__country").all()
+    queryset = TravelPackage.objects.select_related("destination", "destination__country").prefetch_related('extra_services').all()
     serializer_class = TravelPackageSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['destination', 'price', 'duration']
