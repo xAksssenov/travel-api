@@ -129,50 +129,71 @@ const Home = () => {
           <div className={styles.modal}>
             <div className={styles.modalContent}>
               <h2>Добавить тур</h2>
-              <input
-                type="text"
-                placeholder="Название"
-                className={styles.search__input}
-                value={newTour.name}
-                onChange={(e) =>
-                  setNewTour({ ...newTour, name: e.target.value })
-                }
-              />
-              <input
-                type="number"
-                placeholder="Номер страны"
-                className={styles.search__input}
-                value={newTour.destination_id}
-                onChange={(e) =>
-                  setNewTour({ ...newTour, destination_id: e.target.value })
-                }
-              />
-              <textarea
-                placeholder="Описание"
-                className={styles.search__textarea}
-                value={newTour.description}
-                onChange={(e) =>
-                  setNewTour({ ...newTour, description: e.target.value })
-                }
-              />
-              <input
-                type="number"
-                placeholder="Цена"
-                className={styles.search__input}
-                value={newTour.price}
-                onChange={(e) =>
-                  setNewTour({ ...newTour, price: e.target.value })
-                }
-              />
-              <input
-                type="number"
-                placeholder="Длительность"
-                className={styles.search__input}
-                value={newTour.duration}
-                onChange={(e) =>
-                  setNewTour({ ...newTour, duration: e.target.value })
-                }
-              />
+
+              <label className={styles.search__label}>
+                Название тура
+                <input
+                  type="text"
+                  placeholder="Название"
+                  className={styles.search__input}
+                  value={newTour.name}
+                  onChange={(e) =>
+                    setNewTour({ ...newTour, name: e.target.value })
+                  }
+                />
+              </label>
+
+              <label className={styles.search__label}>
+                Номер страны
+                <input
+                  type="number"
+                  placeholder="Номер страны"
+                  className={styles.search__input}
+                  value={newTour.destination_id}
+                  onChange={(e) =>
+                    setNewTour({ ...newTour, destination_id: e.target.value })
+                  }
+                />
+              </label>
+
+              <label className={styles.search__label}>
+                Описание
+                <textarea
+                  placeholder="Описание"
+                  className={styles.search__textarea}
+                  value={newTour.description}
+                  onChange={(e) =>
+                    setNewTour({ ...newTour, description: e.target.value })
+                  }
+                />
+              </label>
+
+              <label className={styles.search__label}>
+                Цена
+                <input
+                  type="number"
+                  placeholder="Цена"
+                  className={styles.search__input}
+                  value={newTour.price}
+                  onChange={(e) =>
+                    setNewTour({ ...newTour, price: e.target.value })
+                  }
+                />
+              </label>
+
+              <label className={styles.search__label}>
+                Длительность (дни)
+                <input
+                  type="number"
+                  placeholder="Длительность"
+                  className={styles.search__input}
+                  value={newTour.duration}
+                  onChange={(e) =>
+                    setNewTour({ ...newTour, duration: e.target.value })
+                  }
+                />
+              </label>
+
               <button
                 className={styles.travels__button}
                 onClick={handleAddTour}

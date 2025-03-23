@@ -66,13 +66,9 @@ const AboutCard = () => {
         destination_id: updatedCard?.destination?.id,
       };
 
-      await axios.put(
-        `http://127.0.0.1:8000/api/travels/${id}/`,
-        updatedData,
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.put(`http://127.0.0.1:8000/api/travels/${id}/`, updatedData, {
+        withCredentials: true,
+      });
       setIsEditMode(false);
       fetchCard(id!);
     } catch (error) {
@@ -237,38 +233,50 @@ const AboutCard = () => {
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <h2>Редактировать тур</h2>
-            <input
-              type="text"
-              placeholder="Название"
-              className={styles.search__input}
-              value={updatedCard?.name || ""}
-              onChange={(e) =>
-                setUpdatedCard((prev) => ({ ...prev!, name: e.target.value }))
-              }
-            />
-            <input
-              type="number"
-              placeholder="Цена"
-              className={styles.search__input}
-              value={updatedCard?.price || ""}
-              onChange={(e) =>
-                setUpdatedCard((prev) => ({
-                  ...prev!,
-                  price: String(e.target.value),
-                }))
-              }
-            />
-            <textarea
-              placeholder="Описание"
-              className={styles.search__textarea}
-              value={updatedCard?.description || ""}
-              onChange={(e) =>
-                setUpdatedCard((prev) => ({
-                  ...prev!,
-                  description: e.target.value,
-                }))
-              }
-            />
+            <label className={styles.search__label}>
+              Название
+              <input
+                type="text"
+                placeholder="Название"
+                className={styles.search__input}
+                value={updatedCard?.name || ""}
+                onChange={(e) =>
+                  setUpdatedCard((prev) => ({ ...prev!, name: e.target.value }))
+                }
+              />
+            </label>
+
+            <label className={styles.search__label}>
+              Цена
+              <input
+                type="number"
+                placeholder="Цена"
+                className={styles.search__input}
+                value={updatedCard?.price || ""}
+                onChange={(e) =>
+                  setUpdatedCard((prev) => ({
+                    ...prev!,
+                    price: String(e.target.value),
+                  }))
+                }
+              />
+            </label>
+
+            <label className={styles.search__label}>
+              Описание
+              <textarea
+                placeholder="Описание"
+                className={styles.search__textarea}
+                value={updatedCard?.description || ""}
+                onChange={(e) =>
+                  setUpdatedCard((prev) => ({
+                    ...prev!,
+                    description: e.target.value,
+                  }))
+                }
+              />
+            </label>
+
             <button className={styles.buttons__cart} onClick={handleEdit}>
               Сохранить
             </button>
