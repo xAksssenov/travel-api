@@ -260,7 +260,7 @@ const AboutCard = () => {
             />
             <textarea
               placeholder="Описание"
-              className={styles.search__input}
+              className={styles.search__textarea}
               value={updatedCard?.description || ""}
               onChange={(e) =>
                 setUpdatedCard((prev) => ({

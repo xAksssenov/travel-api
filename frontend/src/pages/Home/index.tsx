@@ -149,7 +149,7 @@ const Home = () => {
               />
               <textarea
                 placeholder="Описание"
-                className={styles.search__input}
+                className={styles.search__textarea}
                 value={newTour.description}
                 onChange={(e) =>
                   setNewTour({ ...newTour, description: e.target.value })
